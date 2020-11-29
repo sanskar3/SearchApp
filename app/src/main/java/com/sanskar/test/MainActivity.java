@@ -3,6 +3,7 @@ package com.sanskar.test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.VoiceInteractor;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +24,6 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     EditText editText;
-    String Tag = "myApp";
     Button button;
 
     @Override
@@ -34,28 +34,20 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.editText1);
         button = findViewById(R.id.button1);
 
-        String message = editText.getText().toString();
 
-        RequestQueue requestQueue;
 
-        requestQueue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://api.github.com/search/repositories?sort=stars&order=desc&q=java",
-                null, new Response.Listener<JSONObject>() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onClick(View v) {
+                String sendText = editText.getText().toString();
 
-                    Log.d(Tag, "the response is" + response.toString());
+                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                intent.putExtra("keyName", sendText);
+                startActivity(intent);
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(Tag, "Something went wrong ");
+
             }
         });
-        requestQueue.add(jsonObjectRequest);
     }
-
 
 }
